@@ -16,16 +16,12 @@ namespace ClienteApi.Controllers
             _context = context;
         }
 
-        // === ENDPOINTS DE CLIENTE ===
-
-        // GET: api/clientes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
         {
             return await _context.Clientes.ToListAsync();
         }
 
-        // GET: api/clientes/5
         [HttpGet("{id}", Name = "GetCliente")]
         public async Task<ActionResult<Cliente>> GetCliente(int id)
         {
@@ -39,7 +35,6 @@ namespace ClienteApi.Controllers
             return cliente;
         }
 
-        // PUT: api/clientes/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente(int id, Cliente cliente)
         {
@@ -69,7 +64,6 @@ namespace ClienteApi.Controllers
             return NoContent();
         }
 
-        // POST: api/clientes
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
@@ -79,7 +73,6 @@ namespace ClienteApi.Controllers
             return CreatedAtAction("GetCliente", new { id = cliente.Id }, cliente);
         }
 
-        // DELETE: api/clientes/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(int id)
         {
@@ -100,9 +93,6 @@ namespace ClienteApi.Controllers
             return _context.Clientes.Any(e => e.Id == id);
         }
 
-        // === ENDPOINTS DE PEDIDOS DO CLIENTE ===
-
-        // GET: api/clientes/5/pedidos
         [HttpGet("{clienteId}/pedidos")]
         public async Task<ActionResult<IEnumerable<Pedido>>> GetPedidosDoCliente(int clienteId)
         {
@@ -112,7 +102,6 @@ namespace ClienteApi.Controllers
                 return NotFound("Cliente não encontrado.");
             }
 
-            // Filtra os pedidos pelo ClienteId
             var pedidos = await _context.Pedidos
                                         .Where(p => p.ClienteId == clienteId)
                                         .ToListAsync();
@@ -120,7 +109,6 @@ namespace ClienteApi.Controllers
             return Ok(pedidos);
         }
 
-        // POST: api/clientes/5/pedidos
         [HttpPost("{clienteId}/pedidos")]
         public async Task<ActionResult<Pedido>> PostPedidoParaCliente(int clienteId, Pedido pedido)
         {
@@ -130,15 +118,12 @@ namespace ClienteApi.Controllers
                 return NotFound("Cliente não encontrado.");
             }
 
-            // Associa o pedido ao cliente
             pedido.ClienteId = clienteId;
-            // Define a data do pedido para o momento atual
             pedido.DataPedido = DateTime.UtcNow;
 
             _context.Pedidos.Add(pedido);
             await _context.SaveChangesAsync();
 
-            // Retorna o pedido criado
             return CreatedAtAction(nameof(GetCliente), new { id = cliente.Id }, pedido);
         }
     }
