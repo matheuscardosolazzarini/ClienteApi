@@ -16,9 +16,9 @@ Antes de começar, você precisará ter o seguinte software instalado em sua má
 Siga os passos abaixo para configurar o ambiente de desenvolvimento local.
 
 1.  **Clone o Repositório**
-    git clone https://github.com/matheuscardosolazzarini/ClienteApi.git
     cd ClienteApi
-    ```
+    ``` '''
+     git clone https://github.com/matheuscardosolazzarini/ClienteApi.git
 
 2.  **Abra o Projeto**
     * **No Visual Studio:** Abra o arquivo da solução (`ClienteApi.sln`).
